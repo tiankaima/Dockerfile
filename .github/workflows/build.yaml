@@ -36,6 +36,10 @@ jobs:
             echo "No changes in ${image_name}, skipping build."
             continue
           fi
+          if [[ -f ./${image_name}/build.sh ]]; then
+            SHA=${{ github.sha }} OWNER=${{ github.repository_owner }} ./${image_name}/build.sh
+            continue
+          fi
           docker pull ghcr.io/${{ github.repository_owner }}/${image_name}:latest || true
           docker build --cache-from ghcr.io/${{ github.repository_owner }}/${image_name}:latest \
                        -t ghcr.io/${{ github.repository_owner }}/${image_name}:${{ github.sha }} \
