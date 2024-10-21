@@ -32,4 +32,8 @@ RUN useradd -m ${USERNAME} --uid=${USER_UID} \
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
+COPY src /home/${USERNAME}
+
+RUN sh /home/${USERNAME}/setup.sh
+
 ENTRYPOINT ["/bin/zsh"]
