@@ -8,7 +8,7 @@ RUN apt update \
     && apt upgrade -y \
     && apt install -y --no-install-recommends \
     curl wget git sudo \
-    neovim zsh tmux \
+    neovim tmux less \
     && rm -rf /var/lib/apt/lists/*
 
 # setup miniconda:
@@ -36,4 +36,4 @@ COPY src /home/${USERNAME}
 
 RUN sh /home/${USERNAME}/setup.sh
 
-ENTRYPOINT ["/bin/zsh"]
+ENTRYPOINT ["/bin/bash"]
