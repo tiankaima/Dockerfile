@@ -1,4 +1,4 @@
-ARG CUDA_BASE=12.6.2-cudnn-devel-ubuntu22.04
+ARG CUDA_BASE=12.4.1-cudnn-devel-ubuntu22.04
 
 FROM nvidia/cuda:${CUDA_BASE}
 
@@ -28,9 +28,8 @@ RUN useradd -m ${USERNAME} --uid=${USER_UID} \
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
-
-ENV PATH=${MINICONDA_PATH}/bin:${PATH}
-
 COPY src /home/${USERNAME}
+
+RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
 ENTRYPOINT ["/bin/bash"]

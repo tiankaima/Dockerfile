@@ -1,22 +1,25 @@
 #!/bin/bash
 set -e
 
-docker pull ghcr.io/${OWNER}/cuda:latest || true
-docker pull ghcr.io/${OWNER}/cuda-11.6/latest || true
+TAGS=(
+  12.4.1-cudnn-devel-ubuntu22.04
+  12.4.1-cudnn-devel-ubuntu20.04
+  12.1.1-cudnn8-devel-ubuntu22.04
+  12.1.1-cudnn8-devel-ubuntu20.04
+  11.8.0-cudnn8-runtime-ubuntu22.04
+  11.8.0-cudnn8-runtime-ubuntu20.04
+)
 
-docker build --cache-from ghcr.io/${OWNER}/cuda:latest \
-  -t ghcr.io/${OWNER}/cuda:${SHA} \
-  -t ghcr.io/${OWNER}/cuda:latest \
-  --build-arg USERNAME=user \
-  ./cuda
+for tag in "${TAGS[@]}"; do
+  docker pull ghcr.io/${OWNER}/cuda-${tag} || true
 
-docker build --cache-from ghcr.io/${OWNER}/cuda-11.6:latest \
-  -t ghcr.io/${OWNER}/cuda-11.6:${SHA} \
-  -t ghcr.io/${OWNER}/cuda-11.6:latest \
-  --build-arg CUDA_BASE=11.6.1-devel-ubuntu20.04 \
-  ./cuda
+  docker build --cache-from ghcr.io/${OWNER}/cuda-${tag} \
+    -t ghcr.io/${OWNER}/cuda-${tag}:latest \
+    --build-arg CUDA_BASE=${tag} \
+    ./cuda
 
-docker push ghcr.io/${OWNER}/cuda:${SHA}
-docker push ghcr.io/${OWNER}/cuda:latest
-docker push ghcr.io/${OWNER}/cuda-11.6:${SHA}
-docker push ghcr.io/${OWNER}/cuda-11.6:latest
+  docker push ghcr.io/${OWNER}/cuda-${tag}:latest
+
+  docker image rm ghcr.io/${OWNER}/cuda-${tag}:latest
+  docker system prune -f
+done

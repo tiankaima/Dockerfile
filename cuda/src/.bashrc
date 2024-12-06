@@ -119,7 +119,7 @@ fi
 # comment(tkm): sh setup-run-once.sh if present, then remove it
 if [ -f setup-run-once.sh ]; then
     bash setup-run-once.sh
-    rm setup-run-once.sh
+    rm -f setup-run-once.sh
 fi
 
 # >>> conda initialize >>>
