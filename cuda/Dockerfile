@@ -9,6 +9,7 @@ RUN apt update \
     && apt install -y --no-install-recommends \
     curl wget git sudo \
     neovim tmux less \
+    ssh \
     && rm -rf /var/lib/apt/lists/*
 
 ARG MINICONDA_PATH=/opt/miniconda3
@@ -23,8 +24,11 @@ ARG USER_UID=1000
 
 RUN useradd -m ${USERNAME} --uid=${USER_UID} \
     && usermod -aG sudo ${USERNAME} \
+    && echo 'user:password' | chpasswd \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USERNAME} \
-    && sudo chown -R ${USERNAME}:${USERNAME} ${MINICONDA_PATH}
+    && chown -R ${USERNAME}:${USERNAME} ${MINICONDA_PATH} \
+    && chsh -s /bin/bash ${USERNAME} \
+    && service ssh start
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
@@ -32,4 +36,5 @@ COPY src /home/${USERNAME}
 
 RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
-ENTRYPOINT ["/bin/bash"]
+EXPOSE 22
+CMD ["sudo", "/usr/sbin/sshd", "-D"]
