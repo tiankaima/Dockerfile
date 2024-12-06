@@ -11,17 +11,8 @@ RUN apt update \
     neovim tmux less \
     && rm -rf /var/lib/apt/lists/*
 
-# setup miniconda:
 ARG MINICONDA_PATH=/opt/miniconda3
 ARG MINICONDA_VERSION=latest
-
-RUN curl -s -o miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh \
-    && bash miniconda.sh -b -p ${MINICONDA_PATH} \
-    && rm miniconda.sh
-
-ENV PATH=${MINICONDA_PATH}/bin:${PATH}
-
-# setup user:
 ARG USERNAME=user
 ARG USER_UID=1000
 
@@ -32,8 +23,12 @@ RUN useradd -m ${USERNAME} --uid=${USER_UID} \
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
-COPY src /home/${USERNAME}
+RUN curl -s -o miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh \
+    && bash miniconda.sh -b -p ${MINICONDA_PATH} \
+    && rm miniconda.sh
 
-RUN sh /home/${USERNAME}/setup.sh
+ENV PATH=${MINICONDA_PATH}/bin:${PATH}
+
+COPY src /home/${USERNAME}
 
 ENTRYPOINT ["/bin/bash"]
