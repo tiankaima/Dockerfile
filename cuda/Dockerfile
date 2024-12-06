@@ -13,20 +13,21 @@ RUN apt update \
 
 ARG MINICONDA_PATH=/opt/miniconda3
 ARG MINICONDA_VERSION=latest
+
+RUN curl -s -o miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh \
+    && bash miniconda.sh -b -p ${MINICONDA_PATH} \
+    && rm miniconda.sh
+
 ARG USERNAME=user
 ARG USER_UID=1000
 
 RUN useradd -m ${USERNAME} --uid=${USER_UID} \
     && usermod -aG sudo ${USERNAME} \
-    && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USERNAME}
+    && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USERNAME} \
+    && sudo chown -R ${USERNAME}:${USERNAME} ${MINICONDA_PATH}
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
-
-RUN curl -s -o miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh \
-    && sudo install -d -m 0755 -o ${USERNAME} -g ${USERNAME} ${MINICONDA_PATH} \
-    && bash miniconda.sh -b -p ${MINICONDA_PATH} \
-    && rm miniconda.sh
 
 ENV PATH=${MINICONDA_PATH}/bin:${PATH}
 
