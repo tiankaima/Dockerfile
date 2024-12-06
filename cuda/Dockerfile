@@ -24,6 +24,7 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
 RUN curl -s -o miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh \
+    && sudo install -d -m 0755 -o ${USERNAME} -g ${USERNAME} ${MINICONDA_PATH} \
     && bash miniconda.sh -b -p ${MINICONDA_PATH} \
     && rm miniconda.sh
 
