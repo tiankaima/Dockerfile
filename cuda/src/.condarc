@@ -7,4 +7,5 @@ default_channels:
   - https://mirrors.ustc.edu.cn/anaconda/pkgs/msys2
 custom_channels:
   conda-forge: https://mirrors.ustc.edu.cn/anaconda/cloud
-  pytorch: https://mirrors.ustc.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.sustech.edu.cn/anaconda/cloud
+  nvidia: https://mirrors.sustech.edu.cn/anaconda-extra/cloud
