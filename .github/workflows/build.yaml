@@ -42,9 +42,7 @@ jobs:
           fi
           docker pull ghcr.io/${{ github.repository_owner }}/${image_name}:latest || true
           docker build --cache-from ghcr.io/${{ github.repository_owner }}/${image_name}:latest \
-                       -t ghcr.io/${{ github.repository_owner }}/${image_name}:${{ github.sha }} \
                        -t ghcr.io/${{ github.repository_owner }}/${image_name}:latest \
                        ./${image_name}
-          docker push ghcr.io/${{ github.repository_owner }}/${image_name}:${{ github.sha }}
           docker push ghcr.io/${{ github.repository_owner }}/${image_name}:latest
         done
