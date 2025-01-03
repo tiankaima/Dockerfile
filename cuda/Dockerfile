@@ -34,7 +34,8 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 COPY src /home/${USERNAME}
 
-RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
+RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} \
+    && sudo cp -rT /home/${USERNAME} /etc/skel
 
 EXPOSE 22
 CMD ["sudo", "/usr/sbin/sshd", "-D"]
