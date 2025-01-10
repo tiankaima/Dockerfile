@@ -26,6 +26,8 @@ RUN useradd -m ${USERNAME} --uid=${USER_UID} \
     && usermod -aG sudo ${USERNAME} \
     && echo 'user:password' | chpasswd \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USERNAME} \
+    && sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list \
+    && sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
     && chown -R ${USERNAME}:${USERNAME} ${MINICONDA_PATH} \
     && chsh -s /bin/bash ${USERNAME} \
     && service ssh start

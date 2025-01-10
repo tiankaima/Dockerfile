@@ -116,12 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# comment(tkm): sh setup-run-once.sh if present, then remove it
-if [ -f setup-run-once.sh ]; then
-    bash setup-run-once.sh
-    rm -f setup-run-once.sh
-fi
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/opt/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"

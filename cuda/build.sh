@@ -9,7 +9,7 @@ TAGS=(
   11.8.0-cudnn8-runtime-ubuntu22.04
   11.8.0-cudnn8-runtime-ubuntu20.04
 )
-
+``
 for tag in "${TAGS[@]}"; do
   docker pull ghcr.io/${OWNER}/cuda-${tag} || true
 
