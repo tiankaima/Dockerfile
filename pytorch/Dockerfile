@@ -39,6 +39,3 @@ COPY src /home/${USERNAME}
 RUN sudo chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} \
     && mkdir -p /home/${USERNAME}/.cache \
     && sudo cp -rT /home/${USERNAME} /etc/skel
-
-EXPOSE 22
-CMD ["sudo", "/usr/sbin/sshd", "-D"]
