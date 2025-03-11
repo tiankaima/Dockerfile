@@ -22,15 +22,15 @@ RUN curl -s -o miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-${MIN
 ARG USERNAME=user
 ARG USER_UID=1000
 
-RUN useradd -m ${USERNAME} --uid=${USER_UID} \
+RUN userdel -rf ubuntu \
+    && useradd -m ${USERNAME} --uid=${USER_UID} \
     && usermod -aG sudo ${USERNAME} \
     && echo 'user:password' | chpasswd \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USERNAME} \
     && sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list \
     && sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
     && chown -R ${USERNAME}:${USERNAME} ${MINICONDA_PATH} \
-    && chsh -s /bin/bash ${USERNAME} \
-    && service ssh start
+    && chsh -s /bin/bash ${USERNAME}
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
