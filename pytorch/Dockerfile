@@ -22,7 +22,7 @@ RUN curl -s -o miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-${MIN
 ARG USERNAME=user
 ARG USER_UID=1000
 
-RUN userdel -rf ubuntu \
+RUN userdel -rf ubuntu || true \
     && useradd -m ${USERNAME} --uid=${USER_UID} \
     && usermod -aG sudo ${USERNAME} \
     && echo 'user:password' | chpasswd \
