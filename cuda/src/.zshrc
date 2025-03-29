@@ -1,11 +1,11 @@
 # omz:
 export ZSH="$HOME/.oh-my-zsh"
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
-ZSH_THEME="pygmalion-virtualenv"
+ZSH_THEME="oldschool"
 HYPHEN_INSENSITIVE="true"
 ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
-plugins=(zsh-syntax-highlighting zsh-autocomplete)
+plugins=(zsh-syntax-highlighting zsh-autosuggestions zsh-autocomplete)
 zstyle ':omz:update' mode auto
 source $ZSH/oh-my-zsh.sh
 
