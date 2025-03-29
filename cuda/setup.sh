@@ -27,7 +27,7 @@ chown -R ${USERNAME}:${USERNAME} ${MINICONDA_PATH}
 chsh -s /bin/zsh ${USERNAME}
 
 sudo -u ${USERNAME} -i /bin/bash <<EOF
-sh -c "$(curl -fsSL https://install.ohmyz.sh)" "" --unattended
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 git clone https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 EOF
