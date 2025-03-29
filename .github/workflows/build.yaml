@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+concurrency:
+  group: 'build'
+  cancel-in-progress: true
+
 permissions:
   packages: write
 
