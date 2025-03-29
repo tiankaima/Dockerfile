@@ -20,12 +20,12 @@ export SAVEHIST=1000000000
 setopt EXTENDED_HISTORY
 
 # proxy:
-alias SET_PROXY="export http_proxy=\"http://proxy.lab.tiankaima.cn:7890\" https_proxy=\$http_proxy no_proxy=\"localhost, 127.0.0.1, ::1, *.cn\""
+alias SET_PROXY="export http_proxy=\"http://proxy.lab.tiankaima.cn:7890\" https_proxy=\$http_proxy no_proxy=\"localhost, 127.0.0.1, ::1, .cn\""
 alias UNSET_PROXY="unset http_proxy https_proxy no_proxy"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/miniconda/bin/conda' 'shell.zsh' 'hook' 2>/dev/null)"
+__conda_setup="$('/opt/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
@@ -36,7 +36,6 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
 
 if [[ $- =~ i ]] && [[ -z "$TMUX" ]]; then
     tmux attach-session -t main || tmux new-session -s main
