@@ -5,8 +5,9 @@ COPY setup.sh /tmp/setup.sh
 RUN bash /tmp/setup.sh \
     && rm /tmp/setup.sh
 
-COPY src /home/user
 USER user
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \    
-    git clone https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete && \
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+    git clone https://github.com/marlonrichert/zsh-autocomplete.git /home/user/.oh-my-zsh/custom/plugins/zsh-autocomplete && \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/user/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+
+COPY src /home/user
