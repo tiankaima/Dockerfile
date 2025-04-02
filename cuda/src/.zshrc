@@ -1,7 +1,7 @@
 # omz:
 export ZSH="$HOME/.oh-my-zsh"
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
-ZSH_THEME="oldschool"
+ZSH_THEME="oldgallois"
 HYPHEN_INSENSITIVE="true"
 ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
