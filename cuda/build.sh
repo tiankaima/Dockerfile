@@ -2,6 +2,7 @@
 set -e
 
 TAGS=(
+  12.8.1-cudnn-runtime-ubuntu22.04
   12.4.1-cudnn-runtime-ubuntu22.04
   12.4.1-cudnn-runtime-ubuntu20.04
   12.1.1-cudnn8-runtime-ubuntu22.04
