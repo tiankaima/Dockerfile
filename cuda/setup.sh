@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 export DEBIAN_FRONTEND=noninteractive
 export MINICONDA_VERSION=latest
 export MINICONDA_PATH=/opt/miniconda
@@ -23,13 +25,12 @@ useradd -m ${USERNAME} --uid=${USER_UID}
 usermod -aG sudo ${USERNAME}
 echo 'user:password' | chpasswd
 echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/${USERNAME}
+chsh -s /bin/zsh ${USERNAME}
 chown -R ${USERNAME}:${USERNAME} ${MINICONDA_PATH}
 chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
-chsh -s /bin/zsh ${USERNAME}
 
 sudo -u user sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended &&
-    git clone --branch 24.09.04 https://github.com/marlonrichert/zsh-autocomplete.git /home/user/.oh-my-zsh/custom/plugins/zsh-autocomplete &&
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/user/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&
-    git clone https://github.com/zsh-users/zsh-autosuggestions.git /home/user/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-
-mv /home/user/.zshrc.pre-oh-my-zsh /home/user/.zshrc
+    sudo -u user git clone --branch 24.09.04 https://github.com/marlonrichert/zsh-autocomplete.git /home/user/.oh-my-zsh/custom/plugins/zsh-autocomplete &&
+    sudo -u user git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/user/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&
+    sudo -u user git clone https://github.com/zsh-users/zsh-autosuggestions.git /home/user/.oh-my-zsh/custom/plugins/zsh-autosuggestions &&
+    sudo -u user mv /home/user/.zshrc.pre-oh-my-zsh /home/user/.zshrc
