@@ -22,6 +22,9 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
@@ -44,9 +47,9 @@ jobs:
             SHA=${{ github.sha }} OWNER=${{ github.repository_owner }} ./${image_name}/build.sh
             continue
           fi
-          docker pull ghcr.io/${{ github.repository_owner }}/${image_name}:latest || true
-          docker build --cache-from ghcr.io/${{ github.repository_owner }}/${image_name}:latest \
+          docker buildx build --cache-from ghcr.io/${{ github.repository_owner }}/${image_name}:latest \
                        -t ghcr.io/${{ github.repository_owner }}/${image_name}:latest \
+                       --platform linux/amd64,linux/arm64 \
+                       --push \
                        ./${image_name}
-          docker push ghcr.io/${{ github.repository_owner }}/${image_name}:latest
         done

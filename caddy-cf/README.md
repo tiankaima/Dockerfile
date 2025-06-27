@@ -1,6 +1,10 @@
 # `tiankaima/caddy-cf`
 
-Caddy with Cloudflare DNS and Replace Response plugin.
+Caddy with the following plugins enabled:
+
+- cloudflare
+- replace-response
+- caddy-webdav
 
 ## Usage
 
