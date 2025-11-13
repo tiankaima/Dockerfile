@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday at midnight UTC
 
 concurrency:
   group: 'build'
@@ -39,7 +42,7 @@ jobs:
       run: |
         for folder in $(ls -d */); do
           image_name="${folder%/}"
-          if git diff --quiet HEAD^ HEAD -- ./${image_name}; then
+          if [[ "${{ github.event_name }}" == "push" ]] && git diff --quiet HEAD^ HEAD -- ./${image_name}; then
             echo "No changes in ${image_name}, skipping build."
             continue
           fi
