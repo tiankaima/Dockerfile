@@ -12,12 +12,14 @@ TAGS=(
 for tag in "${TAGS[@]}"; do
   docker pull ghcr.io/${OWNER}/cuda:${tag} || true
 
-  docker build -t ghcr.io/${OWNER}/cuda:${tag} \
+  docker build \
+    -t ghcr.io/${OWNER}/cuda:${tag} \
+    -t registry.tiankaima.cn/cuda:${tag} \
     --build-arg CUDA_BASE=${tag} \
     ./cuda
 
   docker push ghcr.io/${OWNER}/cuda:${tag}
-
+  docker push registry.tiankaima.cn/cuda:${tag}
   docker image rm ghcr.io/${OWNER}/cuda:${tag}
   docker system prune -f
 done
