@@ -21,5 +21,6 @@ for tag in "${TAGS[@]}"; do
   docker push ghcr.io/${OWNER}/cuda:${tag}
   docker push registry.tiankaima.cn/cuda:${tag}
   docker image rm ghcr.io/${OWNER}/cuda:${tag}
+  docker image rm registry.tiankaima.cn/cuda:${tag}
   docker system prune -f
 done
