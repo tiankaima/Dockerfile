@@ -28,9 +28,3 @@ echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/${USERNAME}
 chsh -s /bin/zsh ${USERNAME}
 chown -R ${USERNAME}:${USERNAME} ${MINICONDA_PATH}
 chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
-
-sudo -u user sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended &&
-    sudo -u user git clone --branch 24.09.04 https://github.com/marlonrichert/zsh-autocomplete.git /home/user/.oh-my-zsh/custom/plugins/zsh-autocomplete &&
-    sudo -u user git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/user/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&
-    sudo -u user git clone https://github.com/zsh-users/zsh-autosuggestions.git /home/user/.oh-my-zsh/custom/plugins/zsh-autosuggestions &&
-    sudo -u user mv /home/user/.zshrc.pre-oh-my-zsh /home/user/.zshrc

@@ -2,13 +2,11 @@
 set -e
 
 TAGS=(
+  13.0.2-cudnn-runtime-ubuntu24.04
   12.8.1-cudnn-runtime-ubuntu22.04
   12.4.1-cudnn-runtime-ubuntu22.04
-  12.4.1-cudnn-runtime-ubuntu20.04
   12.1.1-cudnn8-runtime-ubuntu22.04
-  12.1.1-cudnn8-runtime-ubuntu20.04
   11.8.0-cudnn8-runtime-ubuntu22.04
-  11.8.0-cudnn8-runtime-ubuntu20.04
 )
 
 for tag in "${TAGS[@]}"; do

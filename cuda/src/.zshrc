@@ -1,15 +1,3 @@
-# omz:
-export ZSH="$HOME/.oh-my-zsh"
-export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
-ZSH_THEME="oldgallois"
-HYPHEN_INSENSITIVE="true"
-ENABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
-plugins=(zsh-syntax-highlighting zsh-autosuggestions zsh-autocomplete)
-zstyle ':omz:update' mode auto
-source $ZSH/oh-my-zsh.sh
-
-# zsh:
 bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
 bindkey '^X' create_completion
@@ -19,7 +7,6 @@ export HISTSIZE=1000000000
 export SAVEHIST=1000000000
 setopt EXTENDED_HISTORY
 
-# proxy:
 alias SET_PROXY="export http_proxy=\"http://proxy.lab.tiankaima.cn:7890\" https_proxy=\"http://proxy.lab.tiankaima.cn:7890\""
 alias UNSET_PROXY="unset http_proxy https_proxy no_proxy"
 
@@ -36,7 +23,3 @@ else
     fi
 fi
 unset __conda_setup
-
-if [[ $- =~ i ]] && [[ -z "$TMUX" ]]; then
-    tmux attach-session -t main || tmux new-session -s main
-fi
