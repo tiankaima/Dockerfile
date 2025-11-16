@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -xeuo pipefail
 
 TAGS=(
   13.0.2-cudnn-runtime-ubuntu24.04

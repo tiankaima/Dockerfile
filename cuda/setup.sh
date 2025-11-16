@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -xeuo pipefail
 
 export DEBIAN_FRONTEND=noninteractive
 export MINICONDA_VERSION=latest
