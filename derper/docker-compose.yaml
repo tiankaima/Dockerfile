@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  derper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DERP_VERSION: ${DERP_VERSION:-latest}
+    image: derper:local
+    container_name: derper
+    restart: unless-stopped
+    depends_on:
+      - derper-verify
+    environment:
+      - DERP_HOSTNAME=${DERP_HOSTNAME:-derper.example.com}
+      - DERP_HTTPS_PORT=${DERP_HTTPS_PORT:-443}
+      - DERP_STUN_PORT=${DERP_STUN_PORT:-3478}
+      - DERP_CERT_MODE=${DERP_CERT_MODE:-manual}
+      - DERP_VERIFY_URL=${DERP_VERIFY_URL:-http://derper-verify:8080/verify}
+      - DERP_EXTRA_ARGS=${DERP_EXTRA_ARGS:-}
+    command: |
+      /go/bin/derper \
+       -hostname ${DERP_HOSTNAME} \
+       -https-port ${DERP_HTTPS_PORT} \
+       -stun-port ${DERP_STUN_PORT} \
+       -certmode ${DERP_CERT_MODE} \
+       -verify-client-url ${DERP_VERIFY_URL} \
+       ${DERP_EXTRA_ARGS}
+    ports:
+      - "${DERP_HTTPS_PORT:-443}:443"
+      - "${DERP_STUN_PORT:-3478}:3478/udp"
+
+  derper-verify:
+    build:
+      context: ../derper-verify
+      dockerfile: Dockerfile
+    image: derper-verify:local
+    container_name: derper-verify
+    restart: unless-stopped
+    environment:
+      - servers=${VERIFY_SERVERS:-https://headscale.lab.tiankaima.cn/verify,https://headscale.tiankaima.cn/verify}
