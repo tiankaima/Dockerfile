@@ -38,4 +38,4 @@ services:
     container_name: derper-verify
     restart: unless-stopped
     environment:
-      - servers=${VERIFY_SERVERS:-https://headscale.lab.tiankaima.cn/verify,https://headscale.tiankaima.cn/verify}
+      - servers=${VERIFY_SERVERS:-https://headscale.lab.tiankaima.cn/verify}
