@@ -12,11 +12,14 @@ for tag in "${TAGS[@]}"; do
   docker pull ghcr.io/${OWNER}/pytorch:${tag} || true
 
   docker build \
+    -t ${OWNER}/pytorch:${tag} \
     -t ghcr.io/${OWNER}/pytorch:${tag} \
     --build-arg PYTORCH_BASE=${tag} \
     ./pytorch
 
+  docker push ${OWNER}/pytorch:${tag}
   docker push ghcr.io/${OWNER}/pytorch:${tag}
+  docker image rm ${OWNER}/pytorch:${tag}
   docker image rm ghcr.io/${OWNER}/pytorch:${tag}
   docker system prune -f
 done
