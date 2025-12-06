@@ -21,3 +21,4 @@ echo 'user:password' | chpasswd
 echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/${USERNAME}
 chsh -s /bin/bash ${USERNAME}
 chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
+chown -R ${USERNAME}:${USERNAME} /opt/conda
