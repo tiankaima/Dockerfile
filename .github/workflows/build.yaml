@@ -37,13 +37,6 @@ jobs:
                   username: ${{ github.repository_owner }}
                   password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-            - name: Login to GitHub Container Registry
-              uses: docker/login-action@v3
-              with:
-                  registry: ghcr.io
-                  username: ${{ github.repository_owner }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
-
             - name: Build and push Docker images
               run: |
                   set -xeuo pipefail
@@ -58,9 +51,8 @@ jobs:
                       continue
                     fi
                     docker buildx build \
-                      --cache-from ghcr.io/${{ github.repository_owner }}/${image_name}:latest \
                       -t ${{ github.repository_owner }}/${image_name}:latest \
-                      -t ghcr.io/${{ github.repository_owner }}/${image_name}:latest \
+                      --cache-from ${{ github.repository_owner }}/${image_name}:latest \
                       --platform linux/amd64,linux/arm64 \
                       --push \
                       ./${image_name}

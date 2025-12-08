@@ -1,0 +1,58 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - when: never
+
+stages:
+  - build
+
+variables:
+  HTTP_PROXY: "http://gitlab-runner.proxy.lab.tiankaima.cn:7890"
+  HTTPS_PROXY: "http://gitlab-runner.proxy.lab.tiankaima.cn:7890"
+  BUILDX_PLATFORMS: linux/amd64,linux/arm64
+  BUILDX_BUILDER_NAME: ci-builder
+  OWNER: $DOCKERHUB_USERNAME
+
+build-and-publish:
+  stage: build
+  needs: []
+  before_script:
+    - |
+      export http_proxy="$HTTP_PROXY"
+      export https_proxy="$HTTPS_PROXY"
+      if [ -n "$DOCKERHUB_USERNAME" ] && [ -n "$DOCKERHUB_PASSWORD" ]; then
+        echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      else
+        echo "Missing DOCKERHUB_USERNAME or DOCKERHUB_PASSWORD" >&2
+        exit 1
+      fi
+  script: |
+    set -xeuo pipefail
+    OWNER="${OWNER_OVERRIDE:-$OWNER}"
+    for folder in $(ls -d */); do
+      image_name="${folder%/}"
+      if [ "$CI_PIPELINE_SOURCE" = "push" ] && [ -n "$CI_COMMIT_BEFORE_SHA" ] && git diff --quiet "$CI_COMMIT_BEFORE_SHA" "$CI_COMMIT_SHA" -- "./${image_name}"; then
+        echo "No changes in ${image_name}, skipping build."
+        continue
+      fi
+      if [ -f "./${image_name}/build.sh" ]; then
+        SHA="$CI_COMMIT_SHA" OWNER="$OWNER" "./${image_name}/build.sh"
+        continue
+      fi
+      docker buildx build \
+        --builder "$BUILDX_BUILDER_NAME" \
+        -t "${DOCKERHUB_USERNAME}/${image_name}:latest" \
+        --platform "$BUILDX_PLATFORMS" \
+        --push \
+        "./${image_name}"
+      docker image prune -a -f
+    done
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: manual
+      allow_failure: false
+    - when: never
