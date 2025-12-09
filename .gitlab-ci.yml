@@ -11,8 +11,6 @@ stages:
 variables:
   HTTP_PROXY: "http://gitlab-runner.proxy.lab.tiankaima.cn:7890"
   HTTPS_PROXY: "http://gitlab-runner.proxy.lab.tiankaima.cn:7890"
-  BUILDX_PLATFORMS: linux/amd64,linux/arm64
-  BUILDX_BUILDER_NAME: ci-builder
   OWNER: $DOCKERHUB_USERNAME
 
 build-and-publish:
@@ -41,10 +39,8 @@ build-and-publish:
         SHA="$CI_COMMIT_SHA" OWNER="$OWNER" "./${image_name}/build.sh"
         continue
       fi
-      docker buildx build \
-        --builder "$BUILDX_BUILDER_NAME" \
+      docker build \
         -t "${DOCKERHUB_USERNAME}/${image_name}:latest" \
-        --platform "$BUILDX_PLATFORMS" \
         --push \
         "./${image_name}"
       docker image prune -a -f
