@@ -18,10 +18,7 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.l
     apt-get update > /dev/null && \
     apt-get upgrade -y && \
     apt-get install --no-install-recommends --yes \
-    wget bzip2 ca-certificates \
-    git \
-    tini \
-    curl sudo neovim tmux less ssh ncdu tree \
+    wget bzip2 ca-certificates git tini curl sudo neovim tmux less ssh ncdu tree \
     > /dev/null && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
