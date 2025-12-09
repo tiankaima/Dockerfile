@@ -40,7 +40,7 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.l
     echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/${USERNAME} && \
     chsh -s /bin/bash ${USERNAME} && \
     chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} && \
-    chown -R ${USERNAME}:${USERNAME} /opt/conda
+    chown -R ${USERNAME}:${USERNAME} ${CONDA_DIR}
 
 ENTRYPOINT ["tini", "--"]
 CMD [ "/bin/bash" ]
