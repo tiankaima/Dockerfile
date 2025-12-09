@@ -31,6 +31,7 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.l
     conda clean --force-pkgs-dirs --all --yes  && \
     echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> /etc/skel/.bashrc && \
     echo ". ${CONDA_DIR}/etc/profile.d/conda.sh && conda activate base" >> ~/.bashrc && \
+    userdel -rf ubuntu || true && \
     useradd -m ${USERNAME} --uid=${USER_UID} && \
     usermod -aG sudo ${USERNAME} && \
     echo "user:password" | chpasswd && \
