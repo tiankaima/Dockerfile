@@ -40,5 +40,7 @@ RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.l
     chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} && \
     chown -R ${USERNAME}:${USERNAME} ${CONDA_DIR}
 
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
 ENTRYPOINT ["tini", "--"]
 CMD [ "/bin/bash" ]
