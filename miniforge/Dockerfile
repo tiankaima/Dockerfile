@@ -13,8 +13,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 COPY src /home/user
 
-RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list && \
-    sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources && \
+    sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources && \
+    sed -i 's/http:/https:/g' /etc/apt/sources.list.d/ubuntu.sources && \
     apt-get update > /dev/null && \
     apt-get upgrade -y && \
     apt-get install --no-install-recommends --yes \
