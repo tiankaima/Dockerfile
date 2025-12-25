@@ -13,14 +13,20 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 COPY src /home/user
 
-RUN echo "Types: deb\n\
-URIs: http://mirrors.ustc.edu.cn/ubuntu\n\
+RUN ARCH=$(dpkg --print-architecture) && \
+    if [ "$ARCH" = "arm64" ]; then \
+        MIRROR_URL="http://ports.ubuntu.com/ubuntu-ports"; \
+    else \
+        MIRROR_URL="http://mirrors.ustc.edu.cn/ubuntu"; \
+    fi && \
+    echo "Types: deb\n\
+URIs: $MIRROR_URL\n\
 Suites: noble noble-updates noble-backports\n\
 Components: main restricted universe multiverse\n\
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\
 \n\
 Types: deb\n\
-URIs: http://mirrors.ustc.edu.cn/ubuntu\n\
+URIs: $MIRROR_URL\n\
 Suites: noble-security\n\
 Components: main restricted universe multiverse\n\
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg" > /etc/apt/sources.list.d/ubuntu.sources && \
