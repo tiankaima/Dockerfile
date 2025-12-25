@@ -13,9 +13,17 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 COPY src /home/user
 
-RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list.d/ubuntu.sources && \
-    sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/ubuntu.sources && \
-    sed -i 's/http:/https:/g' /etc/apt/sources.list.d/ubuntu.sources && \
+RUN echo "Types: deb\n\
+URIs: http://mirrors.ustc.edu.cn/ubuntu\n\
+Suites: noble noble-updates noble-backports\n\
+Components: main restricted universe multiverse\n\
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\n\
+\n\
+Types: deb\n\
+URIs: http://mirrors.ustc.edu.cn/ubuntu\n\
+Suites: noble-security\n\
+Components: main restricted universe multiverse\n\
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg" > /etc/apt/sources.list.d/ubuntu.sources && \
     apt-get update > /dev/null && \
     apt-get upgrade -y && \
     apt-get install --no-install-recommends --yes \
