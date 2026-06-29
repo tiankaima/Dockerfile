@@ -6,7 +6,7 @@ on:
             - master
     workflow_dispatch:
     schedule:
-        - cron: "0 0 * * 0" # Weekly on Sunday at midnight UTC
+        - cron: "0 0 * * *" # Daily at midnight UTC
 
 concurrency:
     group: "build"
@@ -42,9 +42,11 @@ jobs:
                   set -xeuo pipefail
                   for folder in $(ls -d */); do
                     image_name="${folder%/}"
-                    if [[ "${{ github.event_name }}" == "push" ]] && git diff --quiet HEAD^ HEAD -- ./${image_name}; then
-                      echo "No changes in ${image_name}, skipping build."
-                      continue
+                    if [[ "${{ github.event_name }}" == "push" ]]; then
+                      if git diff --quiet HEAD^ HEAD -- ./${image_name}; then
+                        echo "No changes in ${image_name}, skipping build."
+                        continue
+                      fi
                     fi
                     if [[ -f ./${image_name}/build.sh ]]; then
                       SHA=${{ github.sha }} OWNER=${{ github.repository_owner }} ./${image_name}/build.sh

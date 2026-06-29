@@ -31,9 +31,11 @@ build-and-publish:
     OWNER="${OWNER_OVERRIDE:-$OWNER}"
     for folder in $(ls -d */); do
       image_name="${folder%/}"
-      if [ "$CI_PIPELINE_SOURCE" = "push" ] && [ -n "$CI_COMMIT_BEFORE_SHA" ] && git diff --quiet "$CI_COMMIT_BEFORE_SHA" "$CI_COMMIT_SHA" -- "./${image_name}"; then
-        echo "No changes in ${image_name}, skipping build."
-        continue
+      if [ "$CI_PIPELINE_SOURCE" = "push" ] && [ -n "$CI_COMMIT_BEFORE_SHA" ]; then
+        if git diff --quiet "$CI_COMMIT_BEFORE_SHA" "$CI_COMMIT_SHA" -- "./${image_name}"; then
+          echo "No changes in ${image_name}, skipping build."
+          continue
+        fi
       fi
       if [ -f "./${image_name}/build.sh" ]; then
         SHA="$CI_COMMIT_SHA" OWNER="$OWNER" "./${image_name}/build.sh"
